@@ -1,5 +1,13 @@
 from django.shortcuts import render
 
-# Create your views here.
+from . import models
+
 def store (request):
-    return render (request, "store/store.html")
+    products = models.Product.objects.all ().filter (is_available = True)
+    total_products = products.count ()
+
+    ctx = {
+        "products": products,
+        "total_products": total_products
+    }
+    return render (request, "store/store.html", ctx)
