@@ -21,3 +21,14 @@ def store (request, category_slug=None):
         "total_products": total_products
     }
     return render (request, "store/store.html", ctx)
+
+def product_detail (request, category_slug, product_slug):
+    try:
+        single_product = models.Product.objects.get (category__slug=category_slug, slug=product_slug)
+    except Exception as e:
+        raise e
+    
+    ctx = {
+        "product": single_product
+    }
+    return render (request, "store/product_detail.html", ctx)
