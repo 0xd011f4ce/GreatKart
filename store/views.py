@@ -15,10 +15,10 @@ def store (request, category_slug=None):
     if category_slug != None:
         # Get the category by slug and filter products by category
         categories = get_object_or_404 (Category, slug=category_slug)
-        products = models.Product.objects.filter (category=categories, is_available=True)
+        products = models.Product.objects.filter (category=categories, is_available=True).order_by ("-id")
         total_products = products.count ()
     else:
-        products = models.Product.objects.all ().filter (is_available = True)
+        products = models.Product.objects.all ().filter (is_available = True).order_by ("-id")
         total_products = products.count ()
 
     paginator = Paginator (products, 6)
