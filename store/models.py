@@ -22,3 +22,19 @@ class Product (models.Model):
 
     def __str__ (self):
         return self.name
+    
+variation_category_choice = (
+    ("color", "color"),
+    ("size", "size")
+)
+
+class Variation (models.Model):
+    product = models.ForeignKey (Product, on_delete=models.CASCADE)
+    category = models.CharField (max_length=64, choices=variation_category_choice)
+    value = models.CharField (max_length=64)
+
+    is_active = models.BooleanField (default=True)
+    created_at = models.DateTimeField (auto_now_add=True)
+
+    def __str__ (self):
+        return self.product.name + " - " + self.value
