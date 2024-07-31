@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from cart.views import _cart_get_session_id
@@ -43,3 +44,19 @@ def product_detail (request, category_slug, product_slug):
         "in_cart": in_cart
     }
     return render (request, "store/product_detail.html", ctx)
+
+def search (request):
+    if not 'query' in request.GET:
+        pass # we didn't search
+
+    query = request.GET.get ("query")
+    total_products = 0
+    if query:
+        products = models.Product.objects.order_by ("-id").filter (Q(name__icontains=query) | Q(description__icontains=query))
+        total_products = products.count ()
+
+    ctx = {
+        "products": products,
+        "total_products": total_products
+    }
+    return render (request, "store/store.html", ctx)
