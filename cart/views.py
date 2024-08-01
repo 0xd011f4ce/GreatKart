@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Cart, CartItem
-from store.models import Product
+from store.models import Product, Variation
 
 def _cart_get_session_id (request):
     cart = request.session.session_key
@@ -11,6 +11,19 @@ def _cart_get_session_id (request):
 
 def add_cart (request, product_id):
     product = Product.objects.get (id=product_id)
+    product_variations = []
+
+    if request.method == "POST":
+        for item in request.POST: # get variations
+            key = item
+            value = request.POST[key]
+
+            try:
+                variation = Variation.objects.get (category__iexact=key, value__iexact=value, product=product)
+                product_variations.append (variation)
+            except:
+                pass
+
     try:
         cart = Cart.objects.get (cart_id=_cart_get_session_id (request)) # get the cart using the session id
     except Cart.DoesNotExist:
