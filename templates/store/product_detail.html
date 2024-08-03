@@ -55,18 +55,10 @@
                             <hr>
                             {% if product.stock <= 0 %} <h5 class="text-danger">Out of stock</h5>
                                 {% else %}
-                                {% if in_cart %}
-                                <!-- Added to cart -->
-                                <a href="{% url 'cart' %}" class="btn btn-success">
-                                    <span class="text">Added to Cart</span>
-                                    <i class="fas fa-check"></i>
-                                </a>
-                                {% else %}
                                 <button type="submit" class="btn  btn-primary">
                                     <span class="text">Add to Cart</span>
                                     <i class="fas fa-shopping-cart"></i>
                                 </button>
-                                {% endif %}
                                 {% endif %}
                         </article> <!-- product-info-aside .// -->
                     </form>

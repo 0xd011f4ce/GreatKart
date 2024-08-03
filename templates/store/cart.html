@@ -35,7 +35,14 @@
                                         <figcaption class="info">
                                             <a href="{{ item.product.get_url }}"
                                                 class="title text-dark">{{item.product.name }}</a>
-                                            <p class="text-muted small">Color: 25 Mpx <br> Size: Canon</p>
+                                            <p class="text-muted small">
+                                                {% if item.variations.all %}
+                                                {% for variation in item.variations.all %}
+                                                {{ variation.category | capfirst }}: {{ variation.value | capfirst }}
+                                                <br>
+                                                {% endfor %}
+                                                {% endif %}
+                                            </p>
                                         </figcaption>
                                     </figure>
                                 </td>
